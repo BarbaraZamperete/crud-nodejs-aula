@@ -1,12 +1,12 @@
-{{!-- <h1>all notes</h1>
-
-<pre>
-    {{notes}}
-</pre> --}}
 
 
-<div class="row">
-    {{#each notes}}
+<div class="cabeçalho">
+    <img src="./upload/{{userimg.img.filename}}" alt="" class="imagem">
+    <h2>{{user.name}}</h2>
+</div>
+<div class="conteudo">
+    <div class="row">
+        {{#each notes}}
         <div class="col-md-3">
             <div class="card">
                 <div class="card-body">
@@ -21,5 +21,41 @@
                 </div>
             </div>
         </div>
-    {{/each}}
+        {{/each}}
+    </div>
+    
+    <div class="usuarios">
+        <div class="caixa">
+            <h3>Todos os usuários</h3>
+            {{#each usersNotFriends}}
+            <div class="user">
+                <div class="perfil">
+                    <img src="./upload/{{filename}}" class="perfil-img" alt="">
+                    <a href="/perfil/{{id}}" class="nome-link">{{name}}</a>
+                </div>
+                <form action="/add-friend/{{../user._id}}/{{id}}" method="POST">
+                    <button type="submit" class="btn-primary">ADICIONAR</button>
+                </form>
+            </div>
+            {{/each}}
+        </div>
+        <div class="caixa">
+            <h3> Meus amigos </h3>
+            {{#if usersFriends}}
+            {{#each usersFriends}}
+            <div class="user">
+                <div class="perfil">
+                    <img src="./upload/{{filename}}" class="perfil-img" alt="">
+                    <a href="/perfil/{{id}}" class="nome-link">{{name}}</a>
+                </div>
+                <form action="/delete-friend/{{../user._id}}/{{id}}" method="POST">
+                    <button type="submit" class="btn-danger">REMOVER</button>
+                </form>
+            </div>
+            {{/each}}
+            {{else}}
+            <h5>Você não tem amigos, adicione alguém</h5>
+            {{/if}}
+        </div>
+    </div>
 </div>

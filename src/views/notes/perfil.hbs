@@ -1,0 +1,40 @@
+
+<img src="./upload/{{friendUser.img.filename}}" alt="">
+<h2>Perfil de {{friendUser.name}}</h2>
+
+{{#if notes}}
+    <div class="row">
+        {{#each notes}}
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title d-flex justify-content-between aling-itms-center">
+                            {{title}}
+                        </h4>
+                        <p>{{description}}</p>
+                        <p>Created by: {{../friendUser.name}}</p>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+{{else}}
+    <h5>Não há notas</h5>
+{{/if}}
+
+{{#if friends}}
+    <div class="caixa">
+        <h3> Amigos de {{friendUser.name}} </h3>
+        {{#each friends}}
+
+            <div class="user">
+                <div class="perfil">
+                    <img src="./upload/{{filename}}" class="perfil-img" alt="">
+                    <a href="/perfil/{{id}}" class="nome-link">{{name}}</a>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+{{else}}
+    <h5>Não há amigos</h5>
+{{/if}}

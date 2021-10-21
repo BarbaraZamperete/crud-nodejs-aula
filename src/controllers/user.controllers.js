@@ -1,7 +1,10 @@
 const usersCtrl = {}
 
+
 const passport = require('passport');
 const User = require('../models/Users');
+
+const { addUser } = require('../databseNeo4j');
 
 usersCtrl.renderSingUpForm = (req,res) => {
     res.render('users/signup');
@@ -11,6 +14,8 @@ usersCtrl.signup = async (req,res) => {
     // res.send('signup');
     const errors = [];
     const { name, email, password, confirm_password } = req.body;
+    const img = req.file;
+    //console.log(req.file);
     if (password != confirm_password) {
         errors.push({text: 'Passwords do not match'});
     };
@@ -25,9 +30,16 @@ usersCtrl.signup = async (req,res) => {
             req.flash('error_msg', 'The e-mail already exist');
             res.redirect('/users/signup');
         }else{
-            const newUser = new User({name, email, password});
+            const newUser = new User({name, email, password, img});
             newUser.password = await newUser.encryptPassword(password);
             await newUser.save();
+            //add no neo4j
+            
+            const filename = newUser.img.filename;
+            
+            const response = await addUser(newUser.id, name, email, filename);
+            
+            
             req.flash('success_msg', 'You are registered');
             res.redirect('/users/login');
         }

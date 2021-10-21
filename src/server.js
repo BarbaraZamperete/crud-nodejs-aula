@@ -14,6 +14,11 @@ const session = require('express-session');
 const passport = require('passport');
 // const { use } = require('passport');
 
+// const neode = require('neode').fromEnv().withDirectory(path.join(__dirname, 'models'));
+
+// const resource = require('@neode/express')
+ 
+// app.use('/api/users', resource(neode, 'UserNeo4j'))
 //inicialization 
 const app = express();
 require('./config/passport');
@@ -63,7 +68,7 @@ app.use((req, res, next) => {
 app.use(require('./routes/index.routes'));
 app.use(require('./routes/notes.routes'));
 app.use(require('./routes/user.routes'));
-
+app.use(require('./routes/neo4j.routes'));
 
 //static files
 module.exports = app;

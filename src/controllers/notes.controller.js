@@ -1,6 +1,8 @@
 const notesCtrl = {};
 
 const Note = require('../models/Notes');
+const User = require('../models/Users');
+const { notMyFriends, myFriends } = require('../databseNeo4j');
 
 notesCtrl.renderNoteForm = (req, res) => {
     // res.send('Notes Add');
@@ -23,7 +25,12 @@ notesCtrl.renderNotes = async(req, res) => {
     // res.send('Render notes');
     // console.log(req.user);
     const notes = await Note.find({user: req.user.id});
-    res.render('notes/all-notes', {notes});
+    const userimg = await User.findOne({_id: req.user.id});
+    // const users = await allUsers();
+    const usersNotFriends = await notMyFriends(req.user.id);
+    const usersFriends = await myFriends(req.user.id);
+    // console.log(usersNotFriends);
+    res.render('notes/all-notes', {notes, usersNotFriends, userimg, usersFriends});
 };
 
 notesCtrl.renderEditForm = async(req, res) => {
